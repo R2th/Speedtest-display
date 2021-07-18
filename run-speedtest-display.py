@@ -181,6 +181,21 @@ def handler(signal_received, frame):
 		display.lcd_display_string("Exiting app.", 2)
 	exit(0)
 
+# Save to CSV
+def SaveToCSV(down, up, average):
+	# datetime object containing current date and time
+	now = datetime.now()
+	# dd/mm/YY H:M:S
+	dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+	if printcsv == 1:
+		try:
+			with open('networkspeeds.csv', 'a', newline='') as csvfile:
+				resultwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+				resultwriter.writerow([down, up, average, dt_string])
+		except Exception as e:
+			printerror("Failed writing to csv.")
+			printerror(e)
+
 
 # Checks for updates
 def checkUpdate():
